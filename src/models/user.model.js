@@ -2,6 +2,9 @@ import mongoose,{Schema} from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt"
 
+
+
+
 const userSchema = new Schema({
     username: {
         type: String,
@@ -40,7 +43,7 @@ const userSchema = new Schema({
     ],
     password: {
         type: String,
-        required: [true, 'Password is required']
+        required: [true, 'Password is required'] //castom message
     },
     refreshToken:{
         type: String
@@ -49,12 +52,20 @@ const userSchema = new Schema({
 },{timestamps:true})
 
 
-// hashing the password
+
+
+
+
+
+
+
+
+// hashing the password(pre is a hook provided by mongoose....pre is a middleware so should have access of next-->next flag)
 userSchema.pre("save",async function (next) {
     //check password change or not
     if(!this.isModified("password")) return next();
 
-    this.password = bcrypt.hash(this.password,10)
+    this.password = bcrypt.hash(this.password,10)  //how many round -->10 
     next()
 })
 
@@ -94,5 +105,10 @@ userSchema.methods.generateRefreshToken = function (){
         }
     )
 }
+
+
+
+
+
 
 export const User = mongoose.model('User',userSchema)
