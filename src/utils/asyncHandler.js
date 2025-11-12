@@ -1,3 +1,4 @@
+//we can resolve the request through promise
 const asyncHandler = (requestHandler) => {
     return (req, res, next) => {
         Promise
