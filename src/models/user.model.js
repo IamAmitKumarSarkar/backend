@@ -65,7 +65,7 @@ userSchema.pre("save",async function (next) {
     //check password change or not
     if(!this.isModified("password")) return next();
 
-    this.password = bcrypt.hash(this.password,10)  //how many round -->10 
+    this.password = await bcrypt.hash(this.password,10)  //how many round -->10 
     next()
 })
 
